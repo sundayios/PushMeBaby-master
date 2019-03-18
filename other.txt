@@ -1,0 +1,39 @@
+博客园 https://www.cnblogs.com/sundaysgarden/p/10550583.html
+aps_development.cer
+aps.cer
+ios_development.p12
+ios_distribution.p12
+
+3、将apns_dev_cert.p12和apns_dev_key.p12文件对应转化为apns_dev_cer.pem和apns_dev_key.pem文件
+
+3.1、打开终端，输入cd Desktop
+
+3.2、将apns_dev_cert.p12文件转换为pen格式，输入openssl pkcs12 -clcerts -nokeys -out apns_dev_cert.pem -in apns_dev_cert.p12
+
+1>. 要求输入一个密码，输入123456.（此处为导出p12的保护密码），此时桌面会生成一个apns_dev_cert.pem文件
+
+3.3、将apns_dev_key.p12文件转换为pen格式，输入openssl pkcs12 -nocerts -out apns_dev_key.pem -in apns_dev_key.p12
+
+1>. 要求输入一个密码，输入123456.（此处为导出p12的保护密码）
+
+2>. 要求验证保护密码，再一次输入123456，此时桌面会生成一个apns-dev-key.pem文件
+
+4、将apns_dev_cer.pem和apns_dev_key.pem文件合成为apns_dev.pem文件，此文件将给php后台用于连接苹果服务器时需要使用，在终端继续输入：cat apns_dev_cer.pem apns_dev_key.pem > apns_dev.pem，此时桌面生成一个apns_dev.pem
+
+
+
+3、验证生成的pem文件
+在终端测试：openssl s_client -connectgateway.sandbox.push.apple.com:2195-cert apns_dev_cert.pem -key apns_dev_key.pem
+
+终端最后显示以下内容，表示配置pem文件成功，
+
+.............................
+
+Key-Arg   : None
+
+Start Time: 1467854873
+
+Timeout   : 300 (sec)
+
+Verify return code: 0 (ok)
+
